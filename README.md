@@ -3,10 +3,10 @@ Offline phpdoc.localhost
 
 Generate a phpdoc.localhost offline site with instaneous ajax function name search.
 
-Installation guide
+## Installation
 
-1) git clone 
+1) git clone git@github.com:robin-zhao/rzOfflinePHPDOC.git
 
-1) sudo ./install
+2) cd rzOFFlinePHPDOC && sudo ./install
 
-2) firefox phpdoc.localhost &
+3) firefox phpdoc.localhost &
