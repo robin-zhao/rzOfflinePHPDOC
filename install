@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+# @author Jian ZHAO
+# 
+# @email boborabit@gmail.com
+#
+if [ $USER != "root" ]
+then
+   echo "this script must be run by root, try with sudo"
+   exit 1
+fi
+
+dir=$(pwd);
+
+# install php-doc.
+apt-get install php-doc
+
+# prepare apache vhost file.
+escapedDir=$(echo $dir | sed 's/\//\\\//g');
+string="s/\/home\/robin\/www\/phpdoc.localhost/${escapedDir}/g"
+touch /etc/apache2/sites-available/phpdoc.localhost.conf
+cat phpdoc.localhost.dist | sed "$string" > /etc/apache2/sites-available/phpdoc.localhost.conf
+a2ensite phpdoc.localhost
+
+# add dns record.
+dns=0
+for i in $(cat /etc/hosts | cut -d' ' -f2)
+do
+  if [ "$i" == 'phpdoc.localhost' ]
+  then
+    dns=1
+  fi
+done
+if [ $dns -eq 0 ]
+then
+  echo "127.0.0.1 phpdoc.localhost" >> /etc/hosts
+fi
+service apache2 reload
+
+# link phpdoc dir.
+[ ! -s html ] && ln -s /usr/share/doc/php-doc/html html
+
+# build function shortcuts.
+./build
+

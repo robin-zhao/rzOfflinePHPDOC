@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# extract function name from file
+#
+# @author Jian ZHAO 
+#
+# @email boborabit@gmail.com
+#
+# @date 2013-04-02
+#
+
+if [ -f config.ini ]; then #config file exists
+    exit 0;
+fi
+
+touch config.ini
+PWD=`pwd`
+FILES=`ls html/`
+
+for filename in $FILES
+do
+TMP=`cat html/$filename \
+    | grep -P  '(?<=<h1 class="refname">)(.*)(?=</h1>)' \
+    | cut -d">" -f2 | cut -d"<" -f1`
+  for line in $TMP
+  do
+    if [ ! -z "$line" ]; then
+        echo "$line=$filename" >> $PWD/config.ini
+    fi
+  done
+done
+
+sed -i 's/\$//g' $PWD/config.ini
+sed -i '/\[deprecated\]/d' $PWD/config.ini
+
+
