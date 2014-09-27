@@ -7,6 +7,6 @@ Generate a phpdoc.localhost offline site with instaneous ajax function name sear
 
 1) git clone git@github.com:robin-zhao/rzOfflinePHPDOC.git
 
-2) cd rzOFFlinePHPDOC && sudo ./install
+2) cd rzOfflinePHPDOC && sudo ./install
 
 3) firefox phpdoc.localhost &
